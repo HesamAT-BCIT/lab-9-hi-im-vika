@@ -123,9 +123,8 @@ def api_delete_profile(uid: str):
 
 
 @api_bp.route("/sensor_data", methods=["POST"])
-@require_jwt
 @require_api_key
-def api_sensor_data(uid: str):
+def api_post_sensor_data(uid: str):
     """Receive sensor data from IoT devices (requires API key authentication)."""
     content_error = require_json_content_type()
     if content_error:
