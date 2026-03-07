@@ -25,17 +25,6 @@ if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 db = firestore.client()
 
-def get_current_user():
-    """Return the currently logged-in username (or None).
-
-    Uses session data set during `/login`. This keeps all login checks
-    consistent in one place.
-    """
-    if not session.get("logged_in"):
-        return None
-    return session.get("username")
-
-
 def get_profile_doc_ref(username: str):
     """Get the Firestore document reference for a user's profile."""
     return db.collection("profiles").document(username)
