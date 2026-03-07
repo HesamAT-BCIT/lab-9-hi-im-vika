@@ -36,31 +36,6 @@ def home():
         return render_template("dashboard.html", first_name=profile_data.get('first_name', ''), jwt_token=session.get('jwt_token'))
     return redirect(url_for("login"))
 
-@app.route("/profile", methods=["GET", "POST"])
-def profile():
-    """HTML form to create/update the current user's profile."""
-    current_user = get_current_user()
-    if not current_user:
-        return redirect(url_for("login"))
-
-    if request.method == "GET":
-        profile_data = get_profile_data(current_user)
-        return render_template("profile.html", profile=profile_data, error=None)
-
-    first_name = request.form.get("first_name", "")
-    last_name = request.form.get("last_name", "")
-    student_id = request.form.get("student_id", "")
-
-    error = validate_profile_data(first_name, last_name, student_id)
-    if error:
-        profile_data = {"first_name": first_name, "last_name": last_name, "student_id": student_id}
-        return render_template("profile.html", profile=profile_data, error=error)
-
-    normalized = normalize_profile_data(first_name, last_name, student_id)
-    set_profile(current_user, normalized, merge=False)
-    return redirect(url_for("home"))
-
-
 # --- API Routes ---
 
 @app.get("/api/profile")
