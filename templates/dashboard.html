@@ -3,6 +3,11 @@
 
 <head>
     <title>Dashboard</title>
+    <script>
+    const token = "{{ jwt_token }}";
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
 </head>
 
 <body>
@@ -13,6 +18,10 @@
         <li><a href="{{ url_for('profile.profile') }}">Create/Update Profile</a></li>
         <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
     </ul>
+
+    <div class="chart-container">
+        <canvas id="sensorChart"></canvas>
+    </div>
 </body>
 
 </html>
