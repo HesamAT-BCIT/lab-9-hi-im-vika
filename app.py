@@ -25,17 +25,6 @@ if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 db = firestore.client()
 
-def get_profile_doc_ref(username: str):
-    """Get the Firestore document reference for a user's profile."""
-    return db.collection("profiles").document(username)
-
-
-def get_profile_data(username: str):
-    """Fetch a user's profile from Firestore, returning an empty dict if missing."""
-    doc = get_profile_doc_ref(username).get()
-    return doc.to_dict() if doc.exists else {}
-
-
 def validate_profile_data(first_name: str, last_name: str, student_id: str):
     """Validate that required profile fields are present and well-formed."""
     if not first_name or not last_name or not student_id:
@@ -57,17 +46,6 @@ def require_json_content_type():
     if not request.is_json:
         return jsonify({"error": "Content-Type must be application/json"}), 415
     return None
-
-
-def set_profile(username: str, profile_data: dict[str, str], *, merge: bool):
-    """Persist profile data to Firestore.
-
-    Args:
-        username: Profile owner.
-        profile_data: Data to write.
-        merge: When True, merges into existing document (partial update).
-    """
-    get_profile_doc_ref(username).set(profile_data, merge=merge)
 
 # --- Web Routes ---
 
