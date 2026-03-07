@@ -1,6 +1,8 @@
 from decorators.auth import require_jwt, require_api_key
 from utils.profile import get_profile_data, set_profile, get_profile_doc_ref
 from utils.validation import require_json_content_type, validate_profile_data, normalize_profile_data
+from firebase import db
+from firebase_admin import firestore
 from flask import request, jsonify
 import time
 import re
