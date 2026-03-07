@@ -1,6 +1,8 @@
-import utils.profile, utils.validation, utils.auth
-from . import profile_bp
+from utils.auth import get_current_user
+from utils.profile import get_profile_data, set_profile
+from utils.validation import validate_profile_data, normalize_profile_data
 from flask import request, url_for, redirect, render_template
+from . import profile_bp
 
 @profile_bp.route("/profile", methods=["GET", "POST"])
 def profile():
@@ -24,4 +26,4 @@ def profile():
 
     normalized = normalize_profile_data(first_name, last_name, student_id)
     set_profile(current_user, normalized, merge=False)
-    return redirect(url_for("home"))
+    return redirect(url_for("dashboard.home"))
