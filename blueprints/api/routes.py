@@ -5,6 +5,7 @@ from firebase import db
 from firebase_admin import firestore
 from flask import request, jsonify
 import time
+import json
 import re
 from . import api_bp
 
@@ -121,6 +122,14 @@ def api_delete_profile(uid: str):
     get_profile_doc_ref(uid).delete()
     return jsonify({"message": "Profile deleted successfully"}), 200
 
+@api_bp.route("/sensor_data", methods=["GET"])
+@require_jwt
+def api_get_sensor_data(uid: str):
+    """Receive sensor data from IoT devices (requires API key authentication)."""
+    
+    with open("mock_sensor_data.json", "r") as file:
+        data = json.load(file)
+    return jsonify(data), 200
 
 @api_bp.route("/sensor_data", methods=["POST"])
 @require_api_key
