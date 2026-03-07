@@ -25,17 +25,6 @@ if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 db = firestore.client()
 
-# --- Web Routes ---
-
-@app.route("/")
-def home():
-    """Home page. Redirects to login if no active session."""
-    current_user = get_current_user()
-    if current_user:
-        profile_data = get_profile_data(current_user)
-        return render_template("dashboard.html", first_name=profile_data.get('first_name', ''), jwt_token=session.get('jwt_token'))
-    return redirect(url_for("login"))
-
 # --- API Routes ---
 
 @app.get("/api/profile")
